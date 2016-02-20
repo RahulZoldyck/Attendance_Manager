@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
 
     <DatePicker
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_height="wrap_content"
         android:id="@+id/datePicker"
         android:layout_gravity="center_horizontal" />
 
@@ -15,12 +15,12 @@
         android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_gravity="center_horizontal"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="5sp"/>
 
     <ToggleButton
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:textOff="Absent"
         android:textOn="Present"
         android:text="New ToggleButton"
@@ -29,8 +29,7 @@
 
     <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
+    android:layout_height="wrap_content"
     android:orientation="horizontal">
     <Button
         android:layout_width="wrap_content"
@@ -38,6 +37,8 @@
         android:text="Cancel"
         style="?android:buttonBarStyle"
         android:layout_weight="1"
+        android:layout_margin="2sp"
+        android:background="#ddd"
         android:id="@+id/cancelbutton" />
 
     <Button
@@ -45,6 +46,8 @@
         android:layout_width="wrap_content"
         style="?android:buttonBarStyle"
         android:layout_height="wrap_content"
+        android:layout_margin="2sp"
+        android:background="#ddd"
         android:text="Add Class"
         android:id="@+id/addclass" />
 

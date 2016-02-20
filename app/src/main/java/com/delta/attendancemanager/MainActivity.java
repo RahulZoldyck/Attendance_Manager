@@ -27,7 +27,7 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
     Context applicationContext = MainActivity.this;
-    public static final String URL = "http://30d9e412.ngrok.com";
+    public static final String URL = "http://415b1a40.ngrok.com";
     public static final String RNO = "rno";
     static boolean wrong = false;
     MySqlAdapter handler;
@@ -165,7 +165,12 @@ public class MainActivity extends ActionBarActivity {
                 return success == 1;                                                //authentication
             } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(MainActivity.this,"Check Internet Connection and Try Again Later.",Toast.LENGTH_LONG).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "Check Internet Connection and Try Again Later.", Toast.LENGTH_LONG).show();
+                    }
+                });
 
             }
 
