@@ -143,7 +143,7 @@ public class ParseHandler extends IntentService {
                 mNotifyBuilder = new NotificationCompat.Builder(this)
                         .setContentTitle(msg)
                         .setContentText(msg)
-                        .setSmallIcon(R.drawable.ic_launcher);
+                        .setSmallIcon(R.drawable.icon);
                 // Set pending intent
                 mNotifyBuilder.setContentIntent(resultPendingIntent);
 
@@ -172,7 +172,7 @@ public class ParseHandler extends IntentService {
                 mNotifyBuilder = new NotificationCompat.Builder(this)
                         .setContentTitle("Alert")
                         .setContentText(msg)
-                        .setSmallIcon(R.drawable.ic_launcher);
+                        .setSmallIcon(R.drawable.icon);
                 // Set pending intent
                 mNotifyBuilder.setContentIntent(resultPendingIntent);
 
@@ -203,7 +203,7 @@ public class ParseHandler extends IntentService {
                 mNotifyBuilder = new NotificationCompat.Builder(this)
                         .setContentTitle("CR App")//TODO: name it
                         .setContentText(msg)
-                        .setSmallIcon(R.drawable.ic_launcher);
+                        .setSmallIcon(R.drawable.icon);
                 // Set pending intent
                 mNotifyBuilder.setContentIntent(resultPendingIntent);
 
