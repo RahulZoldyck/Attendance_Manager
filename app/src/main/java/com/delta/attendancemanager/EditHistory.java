@@ -22,6 +22,7 @@ import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.text.SimpleDateFormat;
@@ -144,15 +145,18 @@ public class EditHistory extends ActionBarActivity {
                 String format = "yyyy-MM-dd HH:mm";
                 SimpleDateFormat sdf = new SimpleDateFormat(format);
                 Calendar now = Calendar.getInstance();
-                Date date = new Date(dp.getYear()-1900, dp.getMonth(), dp.getDayOfMonth(), TTimings.hour[pos + 1], TTimings.min[pos + 1]);                                                                  //1900+yyyy;      TODO: check whther the normal date is working or change it to 1900+yyyy.
-                atAdapter.add_attendance(subname, sdf.format(date), p);
+                Date date = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth(), TTimings.hour[pos + 1], TTimings.min[pos + 1]);                                                                  //1900+yyyy;
+                boolean isAdded = atAdapter.add_attendance(subname, sdf.format(date), p);
+                if (!isAdded) {
+                    Toast.makeText(getApplicationContext(),"Already Exists",Toast.LENGTH_SHORT).show();
+                }
                 RecyclerView reclist = (RecyclerView) findViewById(R.id.editcardList);
                 reclist.setHasFixedSize(true);
                 LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
                 llm.setOrientation(LinearLayoutManager.VERTICAL);
                 reclist.setLayoutManager(llm);
                 atAdapter.fetch_subject_data(subname);
-                EditAdapter edadapter = new EditAdapter(getApplicationContext(),createList(subname,atAdapter.getDt(),atAdapter.getPresint()));
+                EditAdapter edadapter = new EditAdapter(getApplicationContext(), createList(subname, atAdapter.getDt(), atAdapter.getPresint()));
                 dialog.cancel();
                 reclist.setAdapter(edadapter);
             }

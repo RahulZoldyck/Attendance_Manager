@@ -61,17 +61,18 @@ public class ParseHandler extends IntentService {
 
                 }
                 if (message.equals(MSG_UT)) {
+                    AttendanceServerService.deleteAttendance(getApplicationContext());
                     // sendNotification(0, "success");
                     try {
                         data = myjsonObject.getJSONObject("data");
                         String ex = data.getString("data");
                         JSONObject js = new JSONObject(ex);
-                        AttendanceServerService.deleteAttendance(getApplicationContext());
                         updateUT(js);
-                        AttendanceServerService.addAttendance(getApplicationContext());
                         sendNotification(1, "Upcoming Timetable Updated");
                     } catch (JSONException e) {
                         e.printStackTrace();
+                    }finally{
+                        AttendanceServerService.addAttendance(getApplicationContext());
                     }
                 }
                 if (message.equals(MSG_CHAT)) {

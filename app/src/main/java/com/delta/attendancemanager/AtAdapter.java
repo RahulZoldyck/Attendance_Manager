@@ -83,10 +83,10 @@ public class AtAdapter {
         db.update(Athelper.TABLE_NAME, cv, "(" + Athelper.SUBJECT + "=?) AND (" + Athelper.DATETIME + "=?) AND (" + Athelper.PRESENT + "=?)", new String[]{subject, datetime, String.valueOf(present)});
     }
 
-    public void add_attendance(String subject, String datetime, int present){               //to add attendance
+    public boolean add_attendance(String subject, String datetime, int present){               //to add attendance
         Log.i("in AtAdapter","add attendance called");
         if(subject==null||subject.isEmpty()||datetime.isEmpty())
-            return;
+            return true;
         SQLiteDatabase sqLiteDatabase = athelper.getWritableDatabase();
         if(find_existing(subject,datetime)){
             ContentValues cv = new ContentValues();
@@ -95,6 +95,9 @@ public class AtAdapter {
             cv.put(Athelper.PRESENT,present);
             cv.put(Athelper.UPDATE,1);
             sqLiteDatabase.insert(Athelper.TABLE_NAME, null, cv);
+            return true;
+        }else{
+            return false;                                                                       //TODO if data already exist
         }
     }
 
