@@ -517,7 +517,7 @@ public class CRhomesliderfragment extends Fragment {
 
     private void chatOut(String msg) {
         new AsyncTask<String,Void,Void>(){
-            ProgressDialog dialog = new ProgressDialog(context);
+            ProgressDialog dialog = new ProgressDialog(getActivity());
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();

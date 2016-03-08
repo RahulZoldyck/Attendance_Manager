@@ -128,7 +128,8 @@ public class AtAdapter {
             return;
         SQLiteDatabase db = athelper.getWritableDatabase();
         //DELETE * FROM attendance WHERE subject = subject AND datetime = datet AND present = 0;
-        db.delete(Athelper.TABLE_NAME,Athelper.SUBJECT+ " =? AND "+Athelper.DATETIME+" =? AND "+Athelper.PRESENT+" == 0",new String[]{subject,datet});
+        int a = db.delete(Athelper.TABLE_NAME,Athelper.SUBJECT+ " =? AND "+Athelper.DATETIME+" =? AND "+Athelper.PRESENT+" == 0",new String[]{subject,datet});
+        Log.d("deleted values",String.valueOf(a));
     }
 
     public void delete_data(String subject,String datet){                                                   //as of now no use

@@ -1,14 +1,12 @@
 package com.delta.attendancemanager;
 
-import android.app.DownloadManager;
 import android.app.IntentService;
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
-import android.widget.Toast;
 import android.os.Handler;
+import android.util.Log;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -22,21 +20,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 /**
- *service that syncs attendance and retrieves it.
+ * service that syncs attendance and retrieves it.
  */
 public class AttendanceServerService extends IntentService {
     private static final String SYNC = "com.delta.attendancemanager.action.sync.attendance";
     private static final String RETRIEVE = "com.delta.attendancemanager.action.retrieve.attendance";
     private static final String ADD = "com.delta.attendancemanager.action.add.local.attendance";
     private static final String DELETE = "com.delta.attendancemanager.action.delete.local.attendance";
-    public static final String RNO="rno";
+    public static final String RNO = "rno";
     Handler toasthandler;
 
     public static void syncAttendance(Context context) {
@@ -45,13 +42,13 @@ public class AttendanceServerService extends IntentService {
         context.startService(intent);
     }
 
-    public static void addAttendance(Context context){
+    public static void addAttendance(Context context) {
         Intent intent = new Intent(context, AttendanceServerService.class);
         intent.setAction(ADD);
         context.startService(intent);
     }
 
-    public static void deleteAttendance(Context context){
+    public static void deleteAttendance(Context context) {
         Intent intent = new Intent(context, AttendanceServerService.class);
         intent.setAction(DELETE);
         context.startService(intent);
@@ -78,9 +75,9 @@ public class AttendanceServerService extends IntentService {
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
-            } else if(ADD.equals(action)) {
+            } else if (ADD.equals(action)) {
                 handleAdd();
-            } else if(DELETE.equals(action)) {
+            } else if (DELETE.equals(action)) {
                 handledelete();
             } else {
                 if (RETRIEVE.equals(action)) {
@@ -98,7 +95,7 @@ public class AttendanceServerService extends IntentService {
 
     private void handleSync() throws IOException, JSONException {
 
-        Log.i("in AttendanceServer","handleSync() called");
+        Log.i("in AttendanceServer", "handleSync() called");
         JSONObject result = new JSONObject();
         JSONObject js = new JSONObject();
         JSONArray jsarray = new JSONArray();
@@ -106,26 +103,26 @@ public class AttendanceServerService extends IntentService {
         atAdapter.to_update_data();
         SharedPreferences prefs = getSharedPreferences("user",
                 Context.MODE_PRIVATE);
-        String rollno = prefs.getString(RNO,"default");
+        String rollno = prefs.getString(RNO, "default");
         ArrayList<String> subjects = atAdapter.getSubj(), datetime = atAdapter.getDt();
         ArrayList<Integer> present = atAdapter.getPresint();
-        for(int i=0;i<subjects.size();i++){
+        for (int i = 0; i < subjects.size(); i++) {
             js = new JSONObject();
-            js.put("rollno",rollno);
-            js.put("date-time",datetime.get(i));
-            js.put("subject",subjects.get(i));
-            js.put("present",present.get(i));
+            js.put("rollno", rollno);
+            js.put("date-time", datetime.get(i));
+            js.put("subject", subjects.get(i));
+            js.put("present", present.get(i));
             jsarray.put(js);
         }
-        Log.i("sending something?",jsarray.toString());
+        Log.i("sending something?", jsarray.toString());
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost(MainActivity.URL+"/backup");
-        StringEntity s=new StringEntity(jsarray.toString());
+        HttpPost httpPost = new HttpPost(MainActivity.URL + "/backup");
+        StringEntity s = new StringEntity(jsarray.toString());
         httpPost.setEntity(s);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-type", "application/json");
         HttpResponse httpResponse = httpclient.execute(httpPost);
-        String jsons="";
+        String jsons = "";
         InputStream is = httpResponse.getEntity().getContent();
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -141,14 +138,13 @@ public class AttendanceServerService extends IntentService {
         } catch (Exception e) {
             Log.e("Buffer Error", "Error converting result " + e.toString());
         }
-Log.i("hel",jsons);
+        Log.i("hel", jsons);
         try {
             result = new JSONObject(jsons);
-            if(result.getInt("BackedUp")==1) {
+            if (result.getInt("BackedUp") == 1) {
                 Log.d("hel", "success");
                 toasthandler.post(new DisplayToast(this, "Attendance successfully backed up"));
-            }
-            else{
+            } else {
                 Log.d("hel", "failed");
             }
         } catch (JSONException e) {
@@ -156,34 +152,34 @@ Log.i("hel",jsons);
         }
     }
 
-    private void handleAdd(){
-        Log.i("in AttendanceServer","handleAdd() called");
+    private void handleAdd() {
+        Log.i("in AttendanceServer", "handleAdd() called");
         AtAdapter atAdapter = new AtAdapter(getApplicationContext());
-        MySqlAdapter helper = new MySqlAdapter(getApplicationContext(),null);
+        MySqlAdapter helper = new MySqlAdapter(getApplicationContext(), null);
         String[] subjects = helper.get_tomo();
         String format = "yyyy-MM-dd HH:mm";
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         Calendar now = Calendar.getInstance();
-        if(now.get(Calendar.HOUR_OF_DAY)>15)
-            now.add(Calendar.DAY_OF_MONTH,1);
-        for(int i=1;i<=8;i++){
-            Date date = new Date(now.get(Calendar.YEAR)-1900, now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH),TTimings.hour[i], TTimings.min[i]);                                                                  //1900+yyyy;      TODO: check whther the normal date is working or change it to 1900+yyyy.
+        if (now.get(Calendar.HOUR_OF_DAY) > 15)
+            now.add(Calendar.DAY_OF_MONTH, 1);
+        for (int i = 1; i <= 8; i++) {
+            Date date = new Date(now.get(Calendar.YEAR) - 1900, now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH), TTimings.hour[i], TTimings.min[i]);                                                                  //1900+yyyy;      TODO: check whther the normal date is working or change it to 1900+yyyy.
             atAdapter.add_attendance(subjects[i], sdf.format(date), 0);
         }
     }
 
-    private void handledelete(){
-        Log.i("in AttendanceServer","handleDelete() called");
-        MySqlAdapter helper = new MySqlAdapter(getApplicationContext(),null);
+    private void handledelete() {
+        Log.i("in AttendanceServer", "handleDelete() called");
+        MySqlAdapter helper = new MySqlAdapter(getApplicationContext(), null);
         String[] subjects = helper.get_tomo();
         AtAdapter atAdapter = new AtAdapter(getApplicationContext());
         String format = "yyyy-MM-dd HH:mm";
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         Calendar now = Calendar.getInstance();
-        if(now.get(Calendar.HOUR_OF_DAY)>15)
-            now.add(Calendar.DAY_OF_MONTH,1);
-        for(int i=1;i<=8;i++){
-            Date date = new Date(now.get(Calendar.YEAR)-1900, now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH),TTimings.hour[i], TTimings.min[i]);                                                                  //1900+yyyy;      TODO: check whther the normal date is working or change it to 1900+yyyy.
+        if (now.get(Calendar.HOUR_OF_DAY) > 15)
+            now.add(Calendar.DAY_OF_MONTH, 1);
+        for (int i = 1; i <= 8; i++) {
+            Date date = new Date(now.get(Calendar.YEAR) - 1900, now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH), TTimings.hour[i], TTimings.min[i]);                                                                  //1900+yyyy;      TODO: check whther the normal date is working or change it to 1900+yyyy.
             atAdapter.refresh_delete_data(subjects[i], sdf.format(date));
         }
     }
@@ -198,7 +194,7 @@ Log.i("hel",jsons);
         String rollno = prefs.getString(RNO, "default");
         ArrayList<String> subjects = new ArrayList<>(), datetime = new ArrayList<>();
         ArrayList<Integer> present = new ArrayList<>();
-        js.put("rollno",rollno);
+        js.put("rollno", rollno);
 //        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST,MainActivity.URL+"/backup",js,new Response.Listener<JSONArray>(){
 //            @Override
 //            public void onResponse(JSONArray jsonArray) {
@@ -212,15 +208,15 @@ Log.i("hel",jsons);
 //            }
 //        }
 //        );
-        Log.i("hel",js.toString());
+        Log.i("hel", js.toString());
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost(MainActivity.URL+"/attendance");
-        StringEntity s=new StringEntity(js.toString());
+        HttpPost httpPost = new HttpPost(MainActivity.URL + "/attendance");
+        StringEntity s = new StringEntity(js.toString());
         httpPost.setEntity(s);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-type", "application/json");
         HttpResponse httpResponse = httpclient.execute(httpPost);
-        String jsons="";
+        String jsons = "";
         InputStream is = httpResponse.getEntity().getContent();
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -236,11 +232,11 @@ Log.i("hel",jsons);
         } catch (Exception e) {
             Log.e("Buffer Error", "Error converting result " + e.toString());
         }
-        Log.i("hel",jsons);
+        Log.i("hel", jsons);
         // try parse the string to a JSON object
         try {
             result = new JSONArray(jsons);
-            for(int i=0;i<result.length();i++){
+            for (int i = 0; i < result.length(); i++) {
                 JSONObject temp = result.getJSONObject(i);
                 String subject = temp.getString("subject");
                 String dt = temp.getString("date-time");

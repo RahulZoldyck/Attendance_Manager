@@ -32,7 +32,6 @@ import java.util.List;
 
 import static android.app.PendingIntent.getActivity;
 
-//TODO edit history class to edit the already marked history - local attendance database should be used.
 
 public class EditHistory extends ActionBarActivity {
     AtAdapter atAdapter;

@@ -69,14 +69,17 @@ public class MySqlAdapter {
         db.delete(Mysqlhelper.TNAME, Mysqlhelper.CNAME + " =? ", new String[]{sub});
     }
 
-    public boolean ispresent(String day){
-        SQLiteDatabase db=mysqlhelper.getReadableDatabase();
+    public boolean ispresent(String day) {
+        SQLiteDatabase db = mysqlhelper.getReadableDatabase();
         Cursor cursor = db.query(Mysqlhelper.TABLENAME, new String[]{Mysqlhelper.DAY}, Mysqlhelper.DAY + "=?",
                 new String[]{day}, null, null, null, null);
-        if(!cursor.moveToFirst())
+        if (!cursor.moveToFirst()) {
+            cursor.close();
             return false;
-        else
+        } else {
+            cursor.close();
             return true;
+        }
     }
 
     public void delete_day(String day) {
@@ -413,6 +416,7 @@ public class MySqlAdapter {
     public void update_tomo(String[] subs){
         delete_day(Mysqlhelper.TOMO);
         add_day(Mysqlhelper.TOMO,subs[1],subs[2],subs[3],subs[4],subs[5],subs[6],subs[7],subs[8]);
+
     }
 
     static class Mysqlhelper extends SQLiteOpenHelper{
