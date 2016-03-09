@@ -254,6 +254,16 @@ public class CRSlidingTabsFragment extends Fragment{
                     dialog.cancel();
                 }
             });
+            Button dialogCancel = (Button)dialog.findViewById(R.id.cancelbutton);
+            dialogCancel.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    }
+            );
+
 
             dialog.show();
         }

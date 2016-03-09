@@ -537,7 +537,12 @@ public class CRhomesliderfragment extends Fragment {
                 int day=cal.get(Calendar.DAY_OF_MONTH);
                 int mon=cal.get(Calendar.MONTH)+1;
                 int yy=cal.get(Calendar.YEAR);
-                String time= String.valueOf(h)+":"+String.valueOf(min);
+                String time;
+                if (min<10){
+                    time= String.valueOf(h)+":0"+String.valueOf(min);
+                }else {
+                    time= String.valueOf(h)+":"+String.valueOf(min);
+                }
                 String date=String.valueOf(day)+"/"+String.valueOf(mon)+"/"+String.valueOf(yy);
                 JSONObject js =new JSONObject();
                 try {
