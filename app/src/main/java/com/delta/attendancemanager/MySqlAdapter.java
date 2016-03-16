@@ -433,7 +433,7 @@ public class MySqlAdapter {
         private static final String t220="t220";
         private static final String t310="t310";
         private static final String t400="t400";
-        private static final String TNAME = "subjects";
+        private static final String TNAME = "subjects";                     //TODO make it roll number
         private static final String CNAME = "subject";
         private static final String ATNAME="Announcements";
         private static final String ACNAME="announcements";

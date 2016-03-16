@@ -162,6 +162,8 @@ public class AttendanceServerService extends IntentService {
         Calendar now = Calendar.getInstance();
         if (now.get(Calendar.HOUR_OF_DAY) > 15)
             now.add(Calendar.DAY_OF_MONTH, 1);
+        if (now.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || now.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
+            return;
         for (int i = 1; i <= 8; i++) {
             Date date = new Date(now.get(Calendar.YEAR) - 1900, now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH), TTimings.hour[i], TTimings.min[i]);                                                                  //1900+yyyy;      TODO: check whther the normal date is working or change it to 1900+yyyy.
             atAdapter.add_attendance(subjects[i], sdf.format(date), 0);
