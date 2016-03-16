@@ -17,7 +17,8 @@
         app:elevation="10dp"
         app:borderWidth="0dp"
         app:backgroundTint="#3f85f4"
-
+        android:src="@drawable/fab"
+        android:scaleType="center"
         />
 
     <ScrollView

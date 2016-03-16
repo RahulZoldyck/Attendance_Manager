@@ -49,6 +49,7 @@ import java.util.List;
 /**
  * Created by rahul on 9/14/15.
  */
+
 public class CRhomesliderfragment extends Fragment {
     Context context;
 

@@ -26,6 +26,8 @@
         app:elevation="10dp"
         app:borderWidth="0dp"
         app:backgroundTint="#3f85f4"
+        android:src="@drawable/plusiconfcm1"
+        android:scaleType="center"
 
         />
 
